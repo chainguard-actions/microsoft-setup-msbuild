@@ -1,5 +1,7 @@
 # microsoft/setup-msbuild
 
+A GitHub Action to facilitate configuring MSBuild in the workflow PATH for building .NET Framework applications.
+
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/microsoft/setup-msbuild](https://github.com/microsoft/setup-msbuild).
 
 ## Versions
