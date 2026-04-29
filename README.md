@@ -1,6 +1,12 @@
 # microsoft/setup-msbuild
 
-Hardened GitHub Action by [Chainguard](https://www.chainguard.dev).
+Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/microsoft/setup-msbuild](https://github.com/microsoft/setup-msbuild).
+
+## Versions
+
+| Version | Tag | Upstream commit |
+|---------|-----|-----------------|
+| v3 | [`v3`](https://github.com/chainguard-actions/setup-msbuild/tree/v3) | — |
 
 ## Privacy
 
