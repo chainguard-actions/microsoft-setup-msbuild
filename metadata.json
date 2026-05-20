@@ -1,7 +1,0 @@
-{
-  "owner": "microsoft",
-  "name": "setup-msbuild",
-  "visibility": "internal",
-  "description": "A GitHub Action to facilitate configuring MSBuild in the workflow PATH for building .NET Framework applications.",
-  "block_publish": false
-}
