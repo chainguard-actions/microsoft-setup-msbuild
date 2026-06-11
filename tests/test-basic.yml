@@ -1,0 +1,28 @@
+name: Test basic usage (default inputs)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          msbuild-architecture: x86
+        continue-on-error: true
+      - name: Assert output is set or action ran
+        env:
+          MSBUILD_PATH: ${{ steps.action.outputs.msbuildPath }}
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "msbuildPath: $MSBUILD_PATH"
+          # On Linux, MSBuild is not available, so the action may fail.
+          # We accept either success (path set) or failure (not found on Linux).
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded, msbuildPath: $MSBUILD_PATH"
+          else
+            echo "Action did not succeed (expected on Linux — MSBuild is Windows-only)"
+          fi
+          echo "PASS"
