@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v1.0.2 | [`v1.0.2`](https://github.com/chainguard-actions/microsoft-setup-msbuild/tree/v1.0.2) | [`c26a08b`](https://github.com/microsoft/setup-msbuild/commit/c26a08ba26249b81327e26f6ef381897b6a8754d) |
 | v3 | [`v3`](https://github.com/chainguard-actions/microsoft-setup-msbuild/tree/v3) | — |
 
 ## Privacy
