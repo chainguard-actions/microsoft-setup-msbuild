@@ -11,8 +11,7 @@ on:
     paths-ignore:
       - '*.md'
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   build:
@@ -42,9 +41,9 @@ jobs:
         MSBUILD_PATH_PATH: ${{ steps.setup_msbuild_path.outputs.msbuildPath }}
         MSBUILD_PATH_FALLBACK: ${{ steps.setup_msbuild_fallback.outputs.msbuildPath }}
       run: |
-        echo "vswhere-path: $env:MSBUILD_PATH_EXPLICIT"
-        echo "PATH: $env:MSBUILD_PATH_PATH"
-        echo "Fallback: $env:MSBUILD_PATH_FALLBACK"
+        echo "vswhere-path: $MSBUILD_PATH_EXPLICIT"
+        echo "PATH: $MSBUILD_PATH_PATH"
+        echo "Fallback: $MSBUILD_PATH_FALLBACK"
 
     - name: echo MSBuild
       run: msbuild -version

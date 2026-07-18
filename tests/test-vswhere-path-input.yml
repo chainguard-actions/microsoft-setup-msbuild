@@ -1,0 +1,39 @@
+name: Test vswhere-path input on non-Windows runner
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create a fake vswhere directory
+        run: mkdir -p /tmp/fake-vswhere
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          vswhere-path: '/tmp/fake-vswhere'
+
+      - name: Assert action fails on non-Windows runner even with vswhere-path specified
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" != "failure" ]; then
+            echo "FAIL: expected action to fail on non-Windows runner, got outcome=$OUTCOME"
+            exit 1
+          fi
+          echo "PASS: action correctly failed on non-Windows runner with vswhere-path specified"
+
+      - name: Assert msbuildPath output is empty when vswhere-path is specified on non-Windows
+        env:
+          MSBUILD_PATH: ${{ steps.action.outputs.msbuildPath }}
+        run: |
+          echo "msbuildPath: '$MSBUILD_PATH'"
+          if [ -n "$MSBUILD_PATH" ]; then
+            echo "FAIL: expected msbuildPath to be empty on non-Windows runner, got: $MSBUILD_PATH"
+            exit 1
+          fi
+          echo "PASS: msbuildPath is empty as expected"
