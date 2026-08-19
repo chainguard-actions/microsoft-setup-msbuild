@@ -6,28 +6,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Create a fake vswhere directory
-        run: |
-          mkdir -p /tmp/vswhere-dir
-          echo "fake vswhere placeholder" > /tmp/vswhere-dir/vswhere.exe
+      - name: Create fake vswhere directory
+        run: mkdir -p /tmp/fake-vswhere
       - id: action
         uses: .
-        with:
-          vswhere-path: /tmp/vswhere-dir
-          msbuild-architecture: x86
         continue-on-error: true
+        with:
+          vswhere-path: /tmp/fake-vswhere
+          msbuild-architecture: x86
       - name: Assert action ran with vswhere-path input
         env:
-          MSBUILD_PATH: ${{ steps.action.outputs.msbuildPath }}
           OUTCOME: ${{ steps.action.outcome }}
+          MSBUILD_PATH: ${{ steps.action.outputs.msbuildPath }}
         run: |
           echo "outcome: $OUTCOME"
           echo "msbuildPath: $MSBUILD_PATH"
-          # On Linux, MSBuild is not available, so the action may fail.
-          # We accept either success (path set) or failure (not found on Linux).
           if [ "$OUTCOME" = "success" ]; then
-            echo "Action succeeded, msbuildPath: $MSBUILD_PATH"
+            if [ -z "$MSBUILD_PATH" ]; then
+              echo "FAIL: action succeeded but msbuildPath output is empty"
+              exit 1
+            fi
+            echo "PASS: msbuildPath='$MSBUILD_PATH'"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (MSBuild/Visual Studio not available on Linux)"
           else
-            echo "Action did not succeed (expected on Linux — MSBuild is Windows-only)"
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
           fi
-          echo "PASS"

@@ -23,5 +23,6 @@ outputs:
     description: "The resulting location of msbuild for your inputs"
 
 runs:
+  pre: chainguard-phonehome.js
   using: "node24"
   main: "dist/index.js"

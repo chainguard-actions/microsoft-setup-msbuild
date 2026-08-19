@@ -1,4 +1,4 @@
-name: Test basic usage (default inputs)
+name: Test basic setup-msbuild usage
 on:
   workflow_dispatch:
 jobs:
@@ -8,21 +8,23 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - id: action
         uses: .
-        with:
-          msbuild-architecture: x86
         continue-on-error: true
-      - name: Assert output is set or action ran
+      - name: Assert action ran and produced output or failed gracefully on Linux
         env:
-          MSBUILD_PATH: ${{ steps.action.outputs.msbuildPath }}
           OUTCOME: ${{ steps.action.outcome }}
+          MSBUILD_PATH: ${{ steps.action.outputs.msbuildPath }}
         run: |
           echo "outcome: $OUTCOME"
           echo "msbuildPath: $MSBUILD_PATH"
-          # On Linux, MSBuild is not available, so the action may fail.
-          # We accept either success (path set) or failure (not found on Linux).
           if [ "$OUTCOME" = "success" ]; then
-            echo "Action succeeded, msbuildPath: $MSBUILD_PATH"
+            if [ -z "$MSBUILD_PATH" ]; then
+              echo "FAIL: action succeeded but msbuildPath output is empty"
+              exit 1
+            fi
+            echo "PASS: msbuildPath='$MSBUILD_PATH'"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (MSBuild/Visual Studio not available on Linux)"
           else
-            echo "Action did not succeed (expected on Linux — MSBuild is Windows-only)"
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
           fi
-          echo "PASS"
