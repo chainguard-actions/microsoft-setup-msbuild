@@ -4,8 +4,13 @@
   "version": "v3",
   "commit_sha": "30375c66a4eea26614e0d39710365f22f8b0af57",
   "url": "https://github.com/microsoft/setup-msbuild",
-  "policy_sha": "d636be7e43ef829af6e853da6b3c7566db9f72fe",
+  "policy_sha": "374911c4be584df24e6da57af2d990570ef0f859",
   "test_policy_sha": "843adf9e4b8f85d0c08b27b9d0b09dd094b54702",
   "test_agent_version": "2",
-  "harden_agent_version": "2"
+  "harden_agent_version": "2",
+  "dist_artifact": {
+    "gcs_uri": "gs://patch-actions-node-artifacts/dist-artifacts/microsoft/setup-msbuild/v3/sha256-281f371942ccfb5ee8950bd61165b601ceb39702a1e15b32d9cc32e131308436.tar.gz",
+    "sha256": "281f371942ccfb5ee8950bd61165b601ceb39702a1e15b32d9cc32e131308436",
+    "size_bytes": 32721
+  }
 }
